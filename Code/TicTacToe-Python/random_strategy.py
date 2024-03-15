@@ -1,5 +1,6 @@
 import random
 
+
 def generate_random_value(sent_values, human_clicks):
     """
     Generate a random value between 1 and 9 (excluding already sent and human-clicked values).
@@ -9,6 +10,7 @@ def generate_random_value(sent_values, human_clicks):
         return str(random.choice(list(available_values)))
     return None
 
+
 def check_win(board, player):
     """
     Check if the player has won the game.
@@ -17,7 +19,7 @@ def check_win(board, player):
     win_combinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
-        [0, 4, 8], [2, 4, 6]              # Diagonals
+        [0, 4, 8], [2, 4, 6]  # Diagonals
     ]
 
     for combo in win_combinations:

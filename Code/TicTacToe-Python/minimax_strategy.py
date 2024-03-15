@@ -1,4 +1,3 @@
-
 def check_win(board, player):
     """
     Check if the player has won the game.
@@ -7,7 +6,7 @@ def check_win(board, player):
     win_combinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
-        [0, 4, 8], [2, 4, 6]              # Diagonals
+        [0, 4, 8], [2, 4, 6]  # Diagonals
     ]
 
     for combo in win_combinations:
@@ -15,12 +14,13 @@ def check_win(board, player):
             return True
     return False
 
+
 def minimax(board, depth, maximizing_player):
     # Base cases: Check if the game is over or if the depth limit is reached
     if check_win(board, 'X'):
         return -10 + depth  # AI player wins
     elif check_win(board, 'O'):
-        return 10 - depth   # Human player wins
+        return 10 - depth  # Human player wins
     elif not any([c == '' for c in board]):  # Check if the board is full
         return 0  # Tie game
 
@@ -42,6 +42,7 @@ def minimax(board, depth, maximizing_player):
                 board[i] = ''
                 min_eval = min(min_eval, eval)
         return min_eval
+
 
 def best_move(board):
     best_score = float('-inf')
