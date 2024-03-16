@@ -25,6 +25,7 @@ def init_sound():
 
 class TicTacToeApp:
     def __init__(self):
+        self.played_sounds = set()
         self.root = tk.Tk()
         self.root.title("DHBW: Tic Tac Toe")
         self.root.iconbitmap('images/tic-tac-toe.ico')
@@ -117,15 +118,14 @@ class TicTacToeApp:
         self.root.destroy()
 
     def get_random_sound(self):
-        sound_files = [f for f in os.listdir(AUDIO_FOLDER) if f.endswith(".mp3")]
-        if sound_files:
-            sound_file = random.choice(sound_files)
-            while sound_file == self.last_played_sound:
-                sound_file = random.choice(sound_files)
-            self.last_played_sound = sound_file
+        sound_files = {f for f in os.listdir(AUDIO_FOLDER) if f.endswith(".mp3")}
+        available_sound_files = sound_files - self.played_sounds
+
+        if available_sound_files:
+            sound_file = random.choice(list(available_sound_files))
+            self.played_sounds.add(sound_file)
             return os.path.join(AUDIO_FOLDER, sound_file)
-        else:
-            return None
+        return None
 
     def play_game(self):
         game_mode = self.game_mode.get()
@@ -172,9 +172,10 @@ class TicTacToeApp:
                 if check_win(board, "X"):
                     messagebox.showinfo("Game Over", "Player X wins!")
                     break
-                elif len(sent_values) == 9:  # Check for draw
-                    messagebox.showinfo("Game Over", "It's a draw!")
-                    break
+                elif len(sent_values) + len(human_clicks) == 9:  # Check for draw
+                    if not check_win(board, "X") and not check_win(board, "O"):
+                        messagebox.showinfo("Game Over", "It's a draw!")
+                        break
             self.root.update()
             time.sleep(0.1)
 
